@@ -1,60 +1,64 @@
-import React, { useState } from 'react'
-import { MainContainer, Form, Input } from './styles'
+import React from "react";
+import { useForm } from "../../hooks/useForm";
+import { MainContainer, Form, Input } from "./styles";
 
 function MainPage() {
-  const [nome, setNome] = useState("")
-  const [idade, setIdade] = useState("")
-  const [email, setEmail] = useState("")
-
-  const onChangeNome = (event) => {
-    setNome(event.target.value)
-  }
-
-  const onChangeIdade = (event) => {
-    setIdade(event.target.value)
-  }
-
-  const onChangeEmail = (event) => {
-    setEmail(event.target.value)
-  }
+  const [formulario, onChange] = useForm({ nome: "", idade: "", email: "", profissao:"" });
 
   const handleClick = (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    console.log(`nome: ${nome}, idade: ${idade}, e-mail: ${email} `)
-  }
+    console.log(
+      `nome: ${formulario.nome}, idade: ${formulario.idade}, e-mail: ${formulario.email}, profissao: ${formulario.profissao} `
+    );
+  };
 
   return (
     <MainContainer>
       <h2>Formulário de inscrição</h2>
-
+      {/* name com o mesmo nome da propriedade do hook personalizado */}
       <Form onSubmit={handleClick}>
         <label htmlFor="nome">Nome:</label>
-        <Input 
+        <Input
+          name="nome"
           id="nome"
-          value={nome}
-          onChange={onChangeNome}
+          value={formulario.nome}
+          onChange={onChange}
+          required
         />
 
         <label htmlFor="idade">Idade:</label>
-        <Input 
+        <Input
+          name="idade"
           id="idade"
-          value={idade}
-          onChange={onChangeIdade}
+          value={formulario.idade}
+          onChange={onChange}
+          type="number"
         />
 
         <label htmlFor="email">E-mail:</label>
-        <Input 
+        <Input
+          name="email"
           id="email"
-          value={email}
-          onChange={onChangeEmail}
+          value={formulario.email}
+          onChange={onChange}
+          type="email"
+          required
         />
-        
-        
-      <button type="submit">Enviar dados</button>
+
+        <label htmlFor="profissao">Profissão:</label>
+        <Input
+          name="profissao"
+          id="profissao"
+          value={formulario.profissao}
+          onChange={onChange}
+          required
+        />
+
+        <button type="submit">Enviar dados</button>
       </Form>
     </MainContainer>
-  )
+  );
 }
 
-export default MainPage
+export default MainPage;
